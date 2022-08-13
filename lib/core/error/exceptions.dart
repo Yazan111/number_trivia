@@ -1,13 +1,13 @@
 abstract class Exception {
-  final String message;
+  final String? message;
 
-  Exception({required this.message});
+  Exception([this.message]);
 }
 
 class NetworkException extends Exception {
-  NetworkException({required super.message});
+  NetworkException([super.message]);
 }
 
 class CacheException extends Exception {
-  CacheException({required super.message});
+  CacheException([super.message]);
 }
