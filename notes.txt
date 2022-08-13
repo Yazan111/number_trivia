@@ -1,0 +1,13 @@
+writing tests require thinking in the following strategy: 
+==========================================================
+1. you should mock dependencies // preparing 
+2. inject all mocked dependencies in the tested module. 
+    this will happen in the setup() method // dependency injection
+3. think about input, output, precessing of the tested module.
+==========================================================
+in each test case: 
+1. prepare the result of the calling function // prepare 
+2. call the function // act
+3. validate 
+==========================================================
+
