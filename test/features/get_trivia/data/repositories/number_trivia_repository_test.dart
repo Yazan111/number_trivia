@@ -88,7 +88,7 @@ void main() {
               .thenAnswer((_) async => tNumberTriviaModel);
           when(mockLocalDataSource.cacheTrivia(any))
               .thenAnswer((_) async => {});
-          final result = await concreteOrRandomTriviaRepo();
+          await concreteOrRandomTriviaRepo();
           verify(mockLocalDataSource.cacheTrivia(tNumberTriviaModel)).called(1);
         });
       });
