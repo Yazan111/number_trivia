@@ -23,10 +23,21 @@ class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
   @override
   Future<Either<Failure, NumberTrivia>> getConcreteNumberTrivia(
       int number) async {
+    return _getTrivia(() => remote.getConcreteNumberTrivia(number));
+  }
+
+  @override
+  Future<Either<Failure, NumberTrivia>> getRandomNumberTrivia() async {
+    return _getTrivia(() => remote.getRandomNumberTrivia());
+  }
+
+  Future<Either<Failure, NumberTrivia>> _getTrivia(
+      Function getConcreteOrRandomTrivia) async {
     final deviceIsConnected = await networkInfo.isConnected;
     if (deviceIsConnected) {
       try {
-        final result = await remote.getConcreteNumberTrivia(number);
+        final result = await getConcreteOrRandomTrivia();
+        local.cacheTrivia(result);
         return right(result);
       } on NetworkException catch (_) {
         return left(const NetworkFailure());
@@ -39,11 +50,5 @@ class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
         return left(const CacheFailure());
       }
     }
-  }
-
-  @override
-  Future<Either<Failure, NumberTrivia>> getRandomNumberTrivia() {
-    // TODO: implement getRandomNumberTrivia
-    throw UnimplementedError();
   }
 }
