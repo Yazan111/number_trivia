@@ -15,7 +15,7 @@ typedef _ConcreteOrRandomTriviaResponse = Future<NumberTriviaModel> Function();
 
 class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
   final NetworkInfo networkInfo;
-  final RemoteDataSource remote;
+  final RemoteDatasource remote;
   final LocalDatasource local;
 
   NumberTriviaRepositoryImpl({

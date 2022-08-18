@@ -11,11 +11,11 @@ import 'package:number_trivia/features/get_trivia/data/models/number_trivia_mode
 import 'package:number_trivia/features/get_trivia/data/repositories/number_trivia_repository_impl.dart';
 import 'number_trivia_repository_test.mocks.dart';
 
-@GenerateMocks([NetworkInfo, LocalDatasource, RemoteDataSource])
+@GenerateMocks([NetworkInfo, LocalDatasource, RemoteDatasource])
 void main() {
   late NumberTriviaRepositoryImpl repository;
   final mockNetworkInfo = MockNetworkInfo();
-  final mockRemoteDataSource = MockRemoteDataSource();
+  final mockRemoteDataSource = MockRemoteDatasource();
   final mockLocalDataSource = MockLocalDatasource();
 
   const tNumber = 1;

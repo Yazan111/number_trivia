@@ -68,11 +68,11 @@ class MockLocalDatasource extends _i1.Mock implements _i5.LocalDatasource {
           as _i4.Future<void>);
 }
 
-/// A class which mocks [RemoteDataSource].
+/// A class which mocks [RemoteDatasource].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockRemoteDataSource extends _i1.Mock implements _i6.RemoteDataSource {
-  MockRemoteDataSource() {
+class MockRemoteDatasource extends _i1.Mock implements _i6.RemoteDatasource {
+  MockRemoteDatasource() {
     _i1.throwOnMissingStub(this);
   }
 

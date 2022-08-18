@@ -37,7 +37,7 @@ void main() {
           .thenAnswer((_) async => false);
 
       expect(() async => localDatasource.cacheTrivia(tNumberTriviaModel),
-          throwsA(isA<CacheException>()));
+          throwsA(const TypeMatcher<CacheException>()));
 
       verify(mockSharedPreferences.setString(any, any));
       verifyNoMoreInteractions(mockSharedPreferences);
@@ -59,7 +59,7 @@ void main() {
       when(mockSharedPreferences.getString(any)).thenThrow(CacheException());
 
       expect(() async => await localDatasource.getLatestTrivia(),
-          throwsA(isA<CacheException>()));
+          throwsA(const TypeMatcher<CacheException>()));
     });
   });
 }
