@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:number_trivia/core/error/exceptions.dart';
@@ -15,19 +16,19 @@ class RemoteDatasourceDio implements RemoteDatasource {
 
   @override
   Future<NumberTriviaModel> getConcreteNumberTrivia(int number) async {
-    final remoteApi = 'http://numbersapi.com/$number?json';
-
-    final result = await client.get(remoteApi);
-    if (result.statusCode != 200) throw NetworkException();
-
-    return NumberTriviaModel.fromJson(jsonDecode(result.data));
+    final remoteApi = 'http://numbersapi.com/$number';
+    return await _getTrivia(remoteApi);
   }
 
   @override
   Future<NumberTriviaModel> getRandomNumberTrivia() async {
-    const remoteApi = 'http://numbersapi.com/random?json';
+    const remoteApi = 'http://numbersapi.com/random';
+    return await _getTrivia(remoteApi);
+  }
 
-    final result = await client.get(remoteApi);
+  Future<NumberTriviaModel> _getTrivia(String api) async {
+    final result = await client.get(api,
+        options: Options(contentType: 'application/json'));
     if (result.statusCode != 200) throw NetworkException();
 
     return NumberTriviaModel.fromJson(jsonDecode(result.data));

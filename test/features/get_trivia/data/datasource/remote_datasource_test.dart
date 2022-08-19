@@ -17,30 +17,54 @@ void main() {
   const tNumberTriviaModel =
       NumberTriviaModel(triviaDescription: 'test', number: tNumber);
 
-  final response = Response(
-      statusCode: 200,
-      data: fixture('response.json'),
-      requestOptions: RequestOptions(path: 'test'));
-
   setUp(() {
     mockClient = MockDio();
     remoteDatasourceDio = RemoteDatasourceDio(mockClient);
   });
 
-  group('getConcreteNumberTrivia', () {
-    test('should fetch normal data when response is 200', () async {
-      when(mockClient.get(any)).thenAnswer((_) async => response);
-      final result = await remoteDatasourceDio.getConcreteNumberTrivia(tNumber);
-      expect(result, tNumberTriviaModel);
-    });
+  void testTriviaFetching(String remoteOrConcrete, Function fetchingFunction,
+      String remoteApi) async {
+    group(remoteOrConcrete, () {
+      test(
+          'should fetch normal data when response is 200 and request is properly formed ',
+          () async {
+        when(mockClient.get(any, options: anyNamed('options'))).thenAnswer(
+            (_) async => Response(
+                requestOptions: RequestOptions(path: 'test'),
+                statusCode: 200,
+                data: fixture('response.json')));
 
-    test('should throw network exception when response is not 200', () async {
-      when(mockClient.get(any))
-          .thenAnswer((_) async => response..statusCode = 401);
-      expect(
-          () async =>
-              await remoteDatasourceDio.getConcreteNumberTrivia(tNumber),
-          throwsA(const TypeMatcher<NetworkException>()));
+        // await remoteDatasourceDio.getConcreteNumberTrivia(tNumber);
+        final result = await fetchingFunction();
+        final captured = verify(
+                mockClient.get(captureAny, options: captureAnyNamed('options')))
+            .captured;
+
+        expect(result, tNumberTriviaModel);
+        expect((captured[0] as String), remoteApi);
+        expect((captured[1] as Options).contentType, 'application/json');
+      });
+
+      test('should throw network exception when response is not 200', () async {
+        when(mockClient.get(any, options: anyNamed('options'))).thenAnswer(
+            (_) async => Response(
+                requestOptions: RequestOptions(path: 'test'),
+                statusCode: 400,
+                data: 'error occured'));
+
+        expect(() async => await fetchingFunction(),
+            throwsA(const TypeMatcher<NetworkException>()));
+      });
     });
-  });
+  }
+
+  testTriviaFetching(
+      'getConcreteNumberTrivia',
+      () => remoteDatasourceDio.getConcreteNumberTrivia(tNumber),
+      'http://numbersapi.com/$tNumber');
+
+  testTriviaFetching(
+      'getRandomNumberTrivia',
+      () => remoteDatasourceDio.getRandomNumberTrivia(),
+      'http://numbersapi.com/random');
 }
