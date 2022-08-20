@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -32,7 +34,7 @@ void main() {
             (_) async => Response(
                 requestOptions: RequestOptions(path: 'test'),
                 statusCode: 200,
-                data: fixture('response.json')));
+                data: jsonDecode(fixture('response.json'))));
 
         // await remoteDatasourceDio.getConcreteNumberTrivia(tNumber);
         final result = await fetchingFunction();

@@ -31,6 +31,6 @@ class RemoteDatasourceDio implements RemoteDatasource {
         options: Options(contentType: 'application/json'));
     if (result.statusCode != 200) throw NetworkException();
 
-    return NumberTriviaModel.fromJson(jsonDecode(result.data));
+    return NumberTriviaModel.fromJson(result.data);
   }
 }

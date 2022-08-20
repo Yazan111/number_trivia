@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:number_trivia/core/utils/input_converter.dart';
+import 'package:number_trivia/core/presentation/utils/input_converter.dart';
 
 void main() {
   late InputConverter inputConverter;

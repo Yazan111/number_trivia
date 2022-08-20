@@ -5,10 +5,11 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:number_trivia/core/error/failures.dart';
 import 'package:number_trivia/core/usecases/usecase.dart';
-import 'package:number_trivia/core/utils/input_converter.dart';
 import 'package:number_trivia/features/get_trivia/domain/entities/number_trivia.dart';
 import 'package:number_trivia/features/get_trivia/domain/usecases/get_concrete_number_trivia.dart';
 import 'package:number_trivia/features/get_trivia/domain/usecases/get_random_number_trivia.dart';
+
+import '../../../../../core/presentation/utils/input_converter.dart';
 
 part 'number_trivia_event.dart';
 part 'number_trivia_state.dart';
@@ -33,11 +34,11 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
 
   FutureOr<void> _getTriviaForConcreteNumber(
       GetTriviaForConcreteNumberEvent event,
-      Emitter<NumberTriviaState> emitter) {
+      Emitter<NumberTriviaState> emitter) async {
     final result = inputConverter.stringToUnsignedInteger(event.numberAsString);
-
-    result.fold(
-        (l) => emitter(const NumberTriviaErrorState(kInvalidInputErrorMessage)),
+    await result.fold(
+        (l) async =>
+            emitter(const NumberTriviaErrorState(kInvalidInputErrorMessage)),
         (r) async {
       emitter(NumberTriviaLoadingState());
       final failureOrTrivia = await concrete(Params(r));

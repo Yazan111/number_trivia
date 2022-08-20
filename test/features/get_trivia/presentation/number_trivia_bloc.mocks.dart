@@ -9,7 +9,7 @@ import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:number_trivia/core/error/failures.dart' as _i5;
 import 'package:number_trivia/core/usecases/usecase.dart' as _i10;
-import 'package:number_trivia/core/utils/input_converter.dart' as _i4;
+import 'package:number_trivia/core/presentation/utils/input_converter.dart' as _i4;
 import 'package:number_trivia/features/get_trivia/domain/entities/number_trivia.dart'
     as _i8;
 import 'package:number_trivia/features/get_trivia/domain/repositories/number_trivia_repository.dart'
